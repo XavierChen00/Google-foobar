@@ -1,29 +1,41 @@
 //package com.google.challenges;
-import java.util.Arrays;
 public class Answer {
   public static int answer(int[] l) {
-    int sum = 0;
-    //gets sum of list
-    for(int i = 0; i < l.length; i++){
-      sum += l[i];
+    if(l.length == 1 && isDivisible(l[0]) ){
+      return l[0];
     }
-    if(isDivisible(sum)){
-      return sortAndCon(l, true, 0);
+    else if(l.length == 1 && !isDivisible(l[0])){
+      return 0;
     }
     else{
-      int lowestNum = 10;
+      int sum = 0;
+      //gets sum of list
       for(int i = 0; i < l.length; i++){
-        int checkSum = 0;
-        for(int j = 0; j < l.length; j++){
-          if(i != j){
-            checkSum += l[j];
+        sum += l[i];
+      }
+      if(isDivisible(sum)){
+        return sortAndCon(l, true, 0);
+      }
+      else{
+        int lowestNum = 10;
+        for(int i = 0; i < l.length; i++){
+          int checkSum = 0;
+          for(int j = 0; j < l.length; j++){
+            if(i != j){
+              checkSum += l[j];
+            }
+          }
+          if(isDivisible(checkSum) && l[i] < lowestNum){
+            lowestNum = l[i];
           }
         }
-        if(isDivisible(checkSum) && l[i] < lowestNum){
-          lowestNum = l[i];
+        if(lowestNum == 10){
+          return 0;
+        }
+        else{
+          return sortAndCon(l,false,lowestNum);
         }
       }
-      return sortAndCon(l,false,lowestNum);
     }
   }
 
@@ -77,9 +89,9 @@ public class Answer {
   }
 
   public static void main(String[] args) {
-    int[]a = {3,1,4,1};
-    System.out.println(answer(a));
-    int[]b = {3, 1, 4, 1, 5, 9};
+    //int[]a = {3,1,4,1};
+    //System.out.println(answer(a));
+    int[]b = {1,1,1,1,1};
     System.out.println(answer(b));
   }
 }
