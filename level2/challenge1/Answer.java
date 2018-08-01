@@ -14,7 +14,7 @@ public class Answer {
         sum += l[i];
       }
       if(isDivisible(sum)){
-        return sortAndCon(l, true, 0);
+        return sortAndCon(l);
       }
       else{
         int lowestNum = 10;
@@ -30,35 +30,46 @@ public class Answer {
           }
         }
         if(lowestNum == 10){
-          return 0;
+          int no1 = 0;
+          int no4 = 0;
+          for(int i = 0; i < l.length; i++){
+            if(l[i] == 1){
+              no1 += 1;
+            }
+            else if(l[i] == 4){
+              no4 += 1;
+            }
+          }
+          if(no1 >= 2){
+            l = remove(l,1);
+            l = remove(l,1);
+            return sortAndCon(l);
+          }
+          else if(no4 >= 2){
+            l = remove(l, 4);
+            l = remove(l, 4);
+            return sortAndCon(l);
+          }
+          else{
+            return 0;
+          }
         }
         else{
-          return sortAndCon(l,false,lowestNum);
+          l = remove(l, lowestNum);
+          return sortAndCon(l);
         }
       }
     }
   }
 
-  public static int sortAndCon(int[] l, boolean divisible, int lowestNum){
+  public static int sortAndCon(int[] l){
     l = sort(l);
     String numString = "";
-    if (divisible){
-      for(int i = 0; i < l.length; i++){
+    for(int i = 0; i < l.length; i++){
         numString += l[i];
-      }
-      int number = Integer.parseInt(numString);
-      return number;
     }
-    else{
-      boolean done = false;
-      for(int i = 0; i < l.length; i++){
-        if(i != indexOf(l, lowestNum)){
-          numString += l[i];
-        }
-      }
-      int number = Integer.parseInt(numString);
-      return number;
-    }
+    int number = Integer.parseInt(numString);
+    return number;
   }
 
   public static int indexOf(int[] l, int num){
@@ -68,6 +79,19 @@ public class Answer {
       }
     }
     return -1;
+  }
+
+  public static int[] remove(int[] arr, int element){
+      int elementIndex = indexOf(arr, element);
+      int[] newArr = new int[arr.length - 1];
+      int newArrayCounter = 0;
+      for(int i = 0; i < arr.length; i++){
+        if(i != elementIndex){
+          newArr[newArrayCounter] = arr[i];
+          newArrayCounter++;
+        }
+      }
+      return newArr;
   }
 
   public static boolean isDivisible(int number){
@@ -89,9 +113,11 @@ public class Answer {
   }
 
   public static void main(String[] args) {
-    //int[]a = {3,1,4,1};
-    //System.out.println(answer(a));
-    int[]b = {1,1,1,1,1};
+    int[]a = {3,1,4,1};
+    System.out.println(answer(a));
+    int[]b = {1,1,1,1,1,1,1,1};
     System.out.println(answer(b));
+    int[]c = {3,1,4,1,5,9};
+    System.out.println(answer(c));
   }
 }
